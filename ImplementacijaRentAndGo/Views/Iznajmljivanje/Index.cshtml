@@ -1,0 +1,65 @@
+﻿
+@model ImplementacijaRentAndGo.Models.IznajmljivanjeVozilo
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Lista iznajmljivanja</h1>
+
+<table class="table" style="border-collapse:collapse; border-color:dodgerblue">
+    <thead>
+        <tr>
+            <th>
+                ID Klijenta
+            </th>
+            <th>
+                Naziv vozila
+            </th>
+            <th>
+               Lokacija
+            </th>
+            <th>
+              Stanje
+            </th>
+            <th>
+             Način plaćanja
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model.Iznajmljivanje)
+    {
+        @foreach (var vozilo in Model.Vozilo)
+        {
+            @if (item.IDVozila == vozilo.Id)
+            {
+                <tbody>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IDKlijenta)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => vozilo.Naziv)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Lokacija)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Stanje)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NacinPlacanja)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ID">Uredi</a> |
+                            <a asp-action="Details" asp-route-id="@item.ID">Detalji</a> 
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        }
+    }
+
+</table>

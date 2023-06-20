@@ -1,0 +1,52 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Prijava";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div class="row" style="justify-content: center">
+    <div class="col-md-12; border border-primary" style="padding: 30px; width: 50%">
+        <section>
+            <form id="account" method="post">
+                <h4>Upotrijebite lokalni račun za prijavu.</h4>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="Input.RememberMe">
+                            <input asp-for="Input.RememberMe" />
+                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                        </label>
+                            <a style="padding-left: 230px" id="forgot-password" asp-page="./ForgotPassword">Zaboravili ste lozinku?</a>
+                    </div>
+                    
+                </div>
+                <div class="form-group" style="text-align: center">
+                    <button type="submit" class="btn btn-primary" style="width: 170px">Prijava</button>
+                </div>
+                <div class="form-group" style="text-align: center">
+                    <p>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registruj se!</a>
+                    </p>
+                </div>
+            </form>
+        </section>
+    </div>
+   
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

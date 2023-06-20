@@ -1,0 +1,179 @@
+﻿@model ImplementacijaRentAndGo.Models.IznajmljivanjeVozac
+@{
+    ViewData["Title"] = "Create";
+}
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    #prikaz-slika-vozila {
+        width: 100%;
+        height: auto;
+    }
+</style>
+
+
+@{
+    var data = ViewBag.Message;
+}
+<hr />
+
+<div class="alert alert-light" role="alert">
+    @data.Naziv
+</div>
+<form asp-action="Create">
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <img id="prikaz-slika-vozila" src=@data.SlikaVozila class="rounded" alt="slika vozila">
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label asp-for="Iznajmljivanje.DatumPreuzmanja" class="control-label">Datum Preuzmanja</label>
+                    <input id="datumPreuzimanja" asp-for="Iznajmljivanje.DatumPreuzmanja" class="form-control" />
+                    <span asp-validation-for="Iznajmljivanje.DatumPreuzmanja" class="text-danger"></span>
+                </div>
+                <div class="form-group ">
+                    <label asp-for="Iznajmljivanje.Lokacija" class="control-label">Lokacija</label>
+                    <select class="form-control disabled" asp-items="Html.GetEnumSelectList<Lokacija>()" disabled>
+                        <option selected="selected" value=@data.Lokacija>@data.Lokacija </option>
+                    </select>
+                    <span asp-validation-for="Iznajmljivanje.Lokacija" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Iznajmljivanje.Cijena" class="control-label">Cijena</label>
+                    <input id="myButton1" asp-for="Iznajmljivanje.Cijena" class="form-control" />
+                    <span asp-validation-for="Iznajmljivanje.Cijena" class="text-danger"></span>
+                </div>
+
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label asp-for="Iznajmljivanje.DatumVracanja" class="control-label">Datum Vracanja</label>
+                    <input id="datumVracanja" asp-for="Iznajmljivanje.DatumVracanja" class="form-control" />
+                    <span asp-validation-for="Iznajmljivanje.DatumVracanja" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Iznajmljivanje.NacinPlacanja" class="control-label">Nacin placanja</label>
+                    <select asp-for="Iznajmljivanje.NacinPlacanja" class="form-control" aria-label="Default select example">
+                        <option selected>Odabir placanja</option>
+                        <option value="Pri preuzecu">Pri preuzecu</option>
+                        <option value="Karticno">Karticno</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" asp-for="Iznajmljivanje.IDVozila" value="@data.Id" />
+                    <input type="hidden" asp-for="Iznajmljivanje.Lokacija" value="@data.Lokacija" />
+                    <input id="vozac" type="hidden" asp-for="Iznajmljivanje.IDVozaca" value="0" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+        </div>
+    </div>
+
+
+    <hr />
+    <div class="alert alert-info" role="alert">
+        Ukoliko zelite licnog vozaca kliknite na dugme i bit ce vam dodjeljen slobodan vozac!
+    </div>
+    <div class="col-xs-4 col-sm-3 col-md-2 col-md-offset-2 everything-checkbox">
+        <div class="checkbox">
+            <label>
+                <span>Dodjeljen vozac</span>
+                <input id="ckeckbox" type="checkbox" class="checkbox style-2 ">
+            </label>
+        </div>
+    </div>
+
+
+    <div id="neki" class="container my-4">
+
+        <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
+
+
+            <div class="controls-top">
+                <a class="btn-floating" href="#multi-item-example" data-slide="prev"><i class="fa fa-chevron-left"></i></a>
+                <a class="btn-floating" href="#multi-item-example" data-slide="next"><i class="fa fa-chevron-right"></i></a>
+            </div>
+
+            <ol class="carousel-indicators">
+                <li data-target="#multi-item-example" data-slide-to="0" class="active"></li>
+                <li data-target="#multi-item-example" data-slide-to="1"></li>
+                <li data-target="#multi-item-example" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+                @for (int i = 0; i < Model.Vozac.ToList().Count; i += 4)
+                {
+                    <div asp-for="Iznajmljivanje.IDVozac" class="carousel-item  @(i == 0 ? "active" : "")">
+                        <div class="row">
+                            @foreach (var item in Model.Vozac.Skip(i).Take(4))
+                            {
+                                <div class="col-md-3">
+                                    <div class="card mb-2">
+                                        <img id="prikaz-slikea-korisnika" src="@Html.DisplayFor(modelItem => item.SlikaVozaca)" class="rounded" alt="slika vozila">
+
+                                        <div class="card-body">
+                                            <h4 class="card-title">@Html.DisplayFor(modelItem => item.Ime) @Html.DisplayFor(modelItem => item.Prezime)</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Hvala Vam!</h4>
+        <p>Rent and Go karakteriše kvalitet voznog parka, cijene i uslovi za najam, te ljubazni uposlenici uvijek spremni da odgovore na zahtjeve klijenata. Uslugu rezervacija vozila nudimo u nekoliko poslovnica širom BiH. Uz najam vozila je moguć i najam profesionalnih i ljubaznih vozača koji će vaš dolazak do krajnjeg cilja učiniti sigurnim i prijatnim.</p>
+        <hr>
+        <p class="mb-0">Uvijek možete otkazati 24h prije!</p>
+    </div>
+
+    <div class="row">
+        <div class="col-9">
+        </div>
+        <div class="col-3">
+            <input type="submit" value="Dodaj" class="btn btn-primary" style="width:100%;" />
+        </div>
+    </div>
+
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    document.getElementById("datumVracanja").addEventListener('change', function () {
+            var prije = document.getElementById("datumPreuzimanja").value;
+            var date1 = new Date(prije);
+            var poslije = document.getElementById("datumVracanja").value;
+            var date2 = new Date(poslije);
+            var Difference_In_Time = date2.getTime() - date1.getTime();
+            var Difference_In_Days = (Difference_In_Time / (1000 * 3600 * 24)) * @data.CijenaPoDanu;
+            document.getElementById("myButton1").value = Difference_In_Days;
+    });
+
+    document.getElementById("ckeckbox").addEventListener('change', function () {
+        var myArray = [
+            10,
+            20,
+            30,
+            40,
+            50,
+            60,
+            70,
+            80
+        ];
+        document.getElementById("vozac").value = myArray[Math.floor(Math.random() * myArray.length)];
+    });
+
+</script>
